@@ -1,0 +1,40 @@
+
+.column{
+    background-color: black;
+    padding-bottom: 20px;
+    margin: 0px 15px 15px 15px;
+}
+p{
+    font-style: bold;
+    font-size: 25px;
+    padding-left: 15px;
+    color: white;
+}
+h1{
+    font-size: 60px;
+    color: black;
+    text-align: center;
+    padding-bottom: 15px;
+    font-family: sans-serif;
+    font-style: oblique;
+}
+
+h2{
+    text-align: center;
+    padding-top: 15px;
+    color: white;
+    font-size: 45px;
+    font-family: sans-serif;
+}
+h3{
+    display: block;
+    font-family: sans-serif;
+    font-style: italic;
+    text-align: center;
+    margin: auto;
+    animation: fadein 3s infinite;
+}
+@keyframes fadein{
+    0%,100%{opacity: 0;}
+    50%{ opacity: 1}
+}

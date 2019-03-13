@@ -1,0 +1,29 @@
+
+
+.column{
+    background-color: black;
+    padding-bottom: 20px;
+    margin: 0px 15px 15px 15px;
+}
+p{
+    font-style: bold;
+    font-size: 25px;
+    padding-left: 15px;
+    color: white;
+}
+h1{
+    font-size: 60px;
+    color: black;
+    text-align: center;
+    padding-bottom: 15px;
+    font-family: sans-serif;
+    font-style: oblique;
+}
+
+h2{
+    text-align: center;
+    padding-top: 15px;
+    color: white;
+    font-size: 60px;
+    font-family: sans-serif;
+}
