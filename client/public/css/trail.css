@@ -1,0 +1,21 @@
+
+.title-img{
+    width: 100%;
+    height: 225px;
+    padding-bottom: 10px;
+}
+
+.terrain-img{
+    width: 100%;
+    height: 500px;
+    padding-bottom: 10px;
+}
+
+.stat{
+    font-family: sans-serif;
+    font-size: 22px;
+    text-align: center;
+    padding-bottom: 5px;
+    font-style: oblique;
+    font-weight: bold;
+}
