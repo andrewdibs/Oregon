@@ -1,5 +1,5 @@
-var gameSettings = require('../models/gameData');
-var gameController = require("../gameController");
+var gameData = require('../models/gameData');
+var gameController = require("./gameController");
 var profession = require("../models/profession");
 
 
@@ -28,7 +28,7 @@ exports.getProfession = function(req,res){
 }
 
 exports.savePlayerName = function(req,res){
-    gameController.getGameData().playerNames.push(req.params.name);
+    gameController.getGameData().playerNames.push(req.body.name);
     res.setHeader('Content-Type','application/json');
     res.send(gameData);
 }
@@ -39,7 +39,7 @@ exports.getAllPlayerNames = function(req,res){
 
 
 var screen1 = "<h2>Choose your Profession</h2>"
-    +"<ol id= \"profQuestions\" class= 'center'>
+    +"<ol id= \"profQuestions\" class= 'center'>"
         +"<li id=\"banker\">Be a Banker from Boston</li>"
         +"<li id=\"farmer\">Be a Carpenter from Ohio</li>"
         +"<li id=\"banker\">Be a Farmer from Illinois</li>"
