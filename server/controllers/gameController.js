@@ -3,20 +3,27 @@ var weather = require('../models/weather');
 var pace = require('../models/pace');
 var gameData = require('../models/gameData')
 
+var data = gameData.createData();
 
 exports.getGameData = function(req, res) {
 
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin', "*");
-    res.send(gameData);
+    res.send(data);
+}
+
+exports.getLocalData = function(){
+    return data;
 }
 
 exports.changePace = function(req,res){
+    data.currentPace = pace.allPaces[req.params.id];
+    console.log("test");
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin','*');
     
-    getGameData().currentPace = pace.allPaces[req.params.id];
-    res.send(gameData);
+    
+    res.send(data);
     
 }
 
@@ -24,8 +31,8 @@ exports.resetGame = function(req,res){
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin','*');
     
-    gameData.creatData();
-    res.send(gameData);
+    exports.data= gameData.creatData();
+    res.send(data);
     
 }
 
@@ -34,95 +41,95 @@ exports.updateGame = function(req,res){
     res.setHeader('Access-Control-Allow-Origin','*');
     
     //weather probability change
-    var random = Math.random()*100;
-    var miles = gameData.milesTraveled;
+    var random = Math.floor(Math.random()*100);
+    var miles = data.milesTraveled;
     
-    if (random<10)gameData.currentWeather = weather.getAllWeather[0];
-    else if (random<20)gameData.currentWeather = weather.allWeather[1];
-    else if (random<40)gameData.currentWeather = weather.allWeather[2];
-    else if (random<50)gameData.currentWeather = weather.allWeather[3];
-    else if (random<60)gameData.currentWeather = weather.allWeather[4];
-    else if (random<70)gameData.currentWeather = weather.allWeather[5];
-    else if (random<80)gameData.currentWeather = weather.allWeather[6];
-    else if (random<85)gameData.currentWeather = weather.allWeather[7];
-    else if (random<90)gameData.currentWeather = weather.allWeather[8];
-    else if (random<95)gameData.currentWeather = weather.allWeather[9];
-    else gameData.currentWeather = weather.getAllWeather[10];
+    if (random<10)data.currentWeather = weather.getAllWeather[0];
+    else if (random<20)data.currentWeather = weather.allWeather[1];
+    else if (random<40)data.currentWeather = weather.allWeather[2];
+    else if (random<50)data.currentWeather = weather.allWeather[3];
+    else if (random<60)data.currentWeather = weather.allWeather[4];
+    else if (random<70)data.currentWeather = weather.allWeather[5];
+    else if (random<80)data.currentWeather = weather.allWeather[6];
+    else if (random<85)data.currentWeather = weather.allWeather[7];
+    else if (random<90)data.currentWeather = weather.allWeather[8];
+    else if (random<95)data.currentWeather = weather.allWeather[9];
+    else data.currentWeather = weather.allWeather[10];
     
     //pace change
-    var weatherMile = gameData.currentWeather.mileChange;
-    var terrainMile = gameData.currentTerrain.mileChange;
-    if (gameData.currentPace == pace.allPaces[0]){
-        gameData.currentHealth += 5; 
+    var weatherMile = data.currentWeather.mileChange;
+    var terrainMile = data.currentTerrain.mileChange;
+    if (data.currentPace == pace.allPaces[0]){
+        data.currentHealth += 5; 
     }
-    else if(gameData.currentPace == pace.allPaces[1]){
-        gameData.milesTraveled = miles + (20 * terrainMile * weatherMile);
+    else if(data.currentPace == pace.allPaces[1]){
+        data.milesTraveled = miles + (20 * terrainMile * weatherMile);
     }
     else if(gameData.currentPace == pace.allPaces[2]){
-        gameData.milesTraveled = miles + (30 * terrainMile * weatherMile);
-        gameData.currentHealth -= 3;
+        data.milesTraveled = miles + (30 * terrainMile * weatherMile);
+        data.currentHealth -= 3;
     }
     else if(gameData.currentPace == pace.allPaces[3]){
-        gameData.milesTraveled = miles + (35 * terrainMile * weatherMile);
-        gameData.currentHealth -= 8;
+        data.milesTraveled = miles + (35 * terrainMile * weatherMile);
+        data.currentHealth -= 8;
     }
     
-    gameData.currentHealth += gameData.currentWeather.healthChange;
+    data.currentHealth += data.currentWeather.healthChange;
     
     //off players if health gets to low    
-    if (gameData.currentHealth <1 ){
-        for (var i=0;i<gameData.playerSatus.length;i++){
-            gameData.playerStatus[i] = false;        
+    if (data.currentHealth <1 ){
+        for (var i=0;i<data.playerSatus.length;i++){
+            data.playerStatus[i] = false;        
         }
     }
-    else if (gameData.currentHealth < 20){
-        for (var i=0;i<gameData.playerSatus.length;i++){
-            var rand = Math.random()*100;
-            if (gameData.playerStatus[i]=true)
+    else if (data.currentHealth < 20){
+        for (var i=0;i<data.playerSatus.length;i++){
+            var rand = Math.floor(Math.random()*100);
+            if (data.playerStatus[i]=true)
                 if (rand<= 10){
-                    gameData.playerStatus[i]= false;
-                    gameData.messages.push("Oh no, "+gameData.playerNames[i]+"has died...");
+                    data.playerStatus[i]= false;
+                    data.messages.push("Oh no, "+data.playerNames[i]+"has died...");
                 }
         }
     }
-    else if (gameData.currentHealth < 50){
-        for (var i=0;i<gameData.playerSatus.length;i++){
-            var rand = Math.random()*100;
-            if (gameData.playerStatus[i]=true)
+    else if (data.currentHealth < 50){
+        for (var i=0;i<data.playerSatus.length;i++){
+            var rand = Math.floor(Math.random()*100);
+            if (data.playerStatus[i]=true)
                 if (rand<= 3){
-                    gameData.messages.push("Oh no, "+gameData.playerNames[i]+"has died...");
-                    gameData.playerStatus[i]= false;
+                    data.messages.push("Oh no, "+data.playerNames[i]+"has died...");
+                    data.playerStatus[i]= false;
                 }
         }
     }
-    if (gameData.currentHealth <1 ){
-        for (var i=0;i<gameData.playerSatus.length;i++){
-            gameData.playerStatus[i] = false;
-            gameData.messages.push("Oh boy, you died trying to eat eachother in the snowy mountains. The Oregon Trail isn't for everyone...");
+    if (data.currentHealth <1 ){
+        for (var i=0;i<data.playerSatus.length;i++){
+            data.playerStatus[i] = false;
+            data.messages.push("Oh boy, you died trying to eat eachother in the snowy mountains. The Oregon Trail isn't for everyone...");
         }
     }
     //change terrain based on miles traveled 
-    if (miles<100) gameData.currentTerrain = terrain.allTerrain[0];//grassLand
-    else if (miles< 150) gameData.currentTerrain = terrain.allTerrain[2];//mountain
-    else if (miles< 220) gameData.currentTerrain = terrain.allTerrain[1];//desert
-    else if (miles< 250) gameData.currentTerrain = terrain.allTerrain[3];//river
-    else if (miles< 300) gameData.currentTerrain = terrain.allTerrain[0];
-    else if (miles< 350) gameData.currentTerrain = terrain.allTerrain[2];
-    else if (miles< 380) gameData.currentTerrain = terrain.allTerrain[3];
-    else if (miles< 450) gameData.currentTerrain = terrain.allTerrain[1];
-    else if (miles< 500) gameData.currentTerrain = terrain.allTerrain[0];
+    if (miles<100) data.currentTerrain = terrain.allTerrain[0];//grassLand
+    else if (miles< 150) data.currentTerrain = terrain.allTerrain[2];//mountain
+    else if (miles< 220) data.currentTerrain = terrain.allTerrain[1];//desert
+    else if (miles< 250) data.currentTerrain = terrain.allTerrain[3];//river
+    else if (miles< 300) data.currentTerrain = terrain.allTerrain[0];
+    else if (miles< 350) data.currentTerrain = terrain.allTerrain[2];
+    else if (miles< 380) data.currentTerrain = terrain.allTerrain[3];
+    else if (miles< 450) data.currentTerrain = terrain.allTerrain[1];
+    else if (miles< 500) data.currentTerrain = terrain.allTerrain[0];
     
     
     //add a day every update
-    gameData.daysOnTrail++;
+    data.daysOnTrail++;
     
     //loss max days reached
-    if (gameData.daysOnTrail>45)
-        gameData.messages.push("Oh boy, you died trying to eat eachother in the snowy   mountains. The Oregon Trail isn't for everyone...");
+    if (data.daysOnTrail>45)
+        data.messages.push("Oh boy, you died trying to eat eachother in the snowy   mountains. The Oregon Trail isn't for everyone...");
     
     //win
-    if (gameData.milesTraveled>499 && gameData.daysOnTrail<46)
-        gameData.messages.push("CONGRAGULATIONS! You have completed the Oregon Trail!");
+    if (data.milesTraveled>499 && data.daysOnTrail<46)
+        data.messages.push("CONGRAGULATIONS! You have completed the Oregon Trail!");
     
-    res.send(gameData);
+    res.send(data);
 }

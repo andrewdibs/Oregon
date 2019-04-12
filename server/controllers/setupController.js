@@ -1,4 +1,4 @@
-var gameData = require('../models/gameData');
+var gameData = require("../models/gameData");
 var gameController = require("./gameController");
 var profession = require("../models/profession");
 
@@ -12,29 +12,29 @@ exports.getGameScreen = function(req,res){
 }
 
 exports.saveStartMonth = function(req,res){
-    gameController.getGameData().startMonth = req.body.month;
+    gameController.getLocalData().startMonth = req.body.month;
     res.setHeader('Content-Type', 'text/plain');
-    res.send(gameController.getGameData().startMonth);
+    res.send(gameController.getLocalData().startMonth);
 }
 
 exports.getProfession = function(req,res){
     var profession = professions.allProfessions[req.params.id];
     
-    gameController.getGameData().playerProfession = profession.type;
-    gameController.getGameData().playerMoney = profession.money;
+    gameController.getLocalData().playerProfession = profession.type;
+    gameController.getLocalData().playerMoney = profession.money;
     
     res.setHeader('Content-Type', 'application/json');
-    res.send(gameData);
+    res.send(gameController.getLocalData().playerProfession);
 }
 
 exports.savePlayerName = function(req,res){
-    gameController.getGameData().playerNames.push(req.body.name);
+    gameController.getLocalData().playerNames.push(req.body.name);
     res.setHeader('Content-Type','application/json');
-    res.send(gameData);
+    res.send(gameController.getLocalData().playerNames);
 }
 exports.getAllPlayerNames = function(req,res){
     res.setHeader('Content-Type','application/json');
-    res.send(gameData.playerNames);
+    res.send(gameController.getLocalData().playerNames);
 }
 
 
