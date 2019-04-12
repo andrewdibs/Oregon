@@ -10,16 +10,16 @@ function gameData(){
     this.startMonth= "";
     this.milesTraveled = 0
     this.currentHealth = 100;
-    this.currentPace = pace.getAllPaces()[0];
+    this.currentPace = pace.allPaces[0];
     this.daysOnTrail =0;
-    this.currentWeather= weather.getAllWeather()[2];
-    this.currentTerrain = terrain.getAllTerrain()[0];
+    //this.currentWeather= weather.allWeather[2];
+    this.currentTerrain = terrain.allTerrain[0];
     this.messages = [];
 }
 
 exports.createData = function(){
     var data = new gameData();
     
-    return data;
+    return exports.data;
 }
 

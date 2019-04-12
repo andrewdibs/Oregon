@@ -35,9 +35,9 @@ app.route('/api/topTen/topTen')
   .get(topTenController.getCurrentScores);
 
 app.route('/api/setup/player')
-    .get(setupController.getAllPlayerNames);
-app.route('/api/setup/player/:name')
+    .get(setupController.getAllPlayerNames)
     .post(setupController.savePlayerName);
+    
 
 
 
