@@ -2,7 +2,6 @@ var terrain = require('../models/terrain');
 var weather = require('../models/weather');
 var pace = require('../models/pace');
 var gameData = require('../models/gameData')
-
 var data = gameData.createData();
 
 exports.getGameData = function(req, res) {
@@ -18,24 +17,35 @@ exports.getLocalData = function(){
 
 exports.changePace = function(req,res){
     data.currentPace = pace.allPaces[req.params.id];
-    console.log("test");
+    
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin','*');
-    
     
     res.send(data);
     
 }
 
 exports.resetGame = function(req,res){
+    data.playerNames = [];
+    data.playerStatus= [true,true,true,true,true];
+    data.playerProfession = "";
+    data.playerMoney = 0;
+    data.startMonth= "";
+    data.milesTraveled = 0
+    data.currentHealth = 100;
+    data.currentPace = pace.allPaces[0];
+    data.daysOnTrail =0;
+    data.currentWeather= weather.allWeather[2];
+    data.currentTerrain = terrain.allTerrain[0];
+    data.messages = [];
+
+    
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin','*');
-    
-    exports.data= gameData.creatData();
     res.send(data);
     
 }
-
+data.currentWeather = weather.allWeather[2];
 exports.updateGame = function(req,res){
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin','*');
@@ -57,44 +67,33 @@ exports.updateGame = function(req,res){
     else data.currentWeather = weather.allWeather[10];
     
     //pace change
+    data.milesTraveled += Math.floor(data.currentPace.paceMiles*data.currentTerrain.mileChange*data.currentWeather.mileChange);
     var weatherMile = data.currentWeather.mileChange;
     var terrainMile = data.currentTerrain.mileChange;
-    if (data.currentPace == pace.allPaces[0]){
-        data.currentHealth += 5; 
-    }
-    else if(data.currentPace == pace.allPaces[1]){
-        data.milesTraveled = miles + (20 * terrainMile * weatherMile);
-    }
-    else if(gameData.currentPace == pace.allPaces[2]){
-        data.milesTraveled = miles + (30 * terrainMile * weatherMile);
-        data.currentHealth -= 3;
-    }
-    else if(gameData.currentPace == pace.allPaces[3]){
-        data.milesTraveled = miles + (35 * terrainMile * weatherMile);
-        data.currentHealth -= 8;
-    }
-    
+
     data.currentHealth += data.currentWeather.healthChange;
     
     //off players if health gets to low    
     if (data.currentHealth <1 ){
-        for (var i=0;i<data.playerSatus.length;i++){
+        for (var i=0;i<5;i++){
             data.playerStatus[i] = false;        
         }
     }
     else if (data.currentHealth < 20){
-        for (var i=0;i<data.playerSatus.length;i++){
-            var rand = Math.floor(Math.random()*100);
+
+        var rand = Math.floor(Math.random()*100);
+        for (var i=0;i<5;i++){
             if (data.playerStatus[i]=true)
                 if (rand<= 10){
-                    data.playerStatus[i]= false;
                     data.messages.push("Oh no, "+data.playerNames[i]+"has died...");
+                    data.playerStatus[i]= false;
                 }
         }
     }
     else if (data.currentHealth < 50){
-        for (var i=0;i<data.playerSatus.length;i++){
-            var rand = Math.floor(Math.random()*100);
+  
+        var rand = Math.floor(Math.random()*100);
+        for (var i=0;i<5;i++){
             if (data.playerStatus[i]=true)
                 if (rand<= 3){
                     data.messages.push("Oh no, "+data.playerNames[i]+"has died...");
@@ -103,7 +102,7 @@ exports.updateGame = function(req,res){
         }
     }
     if (data.currentHealth <1 ){
-        for (var i=0;i<data.playerSatus.length;i++){
+        for (var i=0;i<5;i++){
             data.playerStatus[i] = false;
             data.messages.push("Oh boy, you died trying to eat eachother in the snowy mountains. The Oregon Trail isn't for everyone...");
         }

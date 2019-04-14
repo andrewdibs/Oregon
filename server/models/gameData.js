@@ -20,6 +20,8 @@ function gameData(){
 exports.createData = function(){
     var data = new gameData();
     
-    return exports.data;
+    return data;
 }
+
+exports.playerNames= this.playerNames;
 

@@ -1,28 +1,28 @@
-var gameData = require("../models/gameData");
 var gameController = require("./gameController");
 var profession = require("../models/profession");
 
 
+var startMonths = ["March","April", "May", "June", "July"];
 
 exports.getGameScreen = function(req,res){
-    var screen = exports.startGameScreen[req.params.id];
+    var screen = startGameScreen[req.params.id];
     
     res.setHeader('Content-Type', 'text/html');
     res.send(screen);
 }
 
 exports.saveStartMonth = function(req,res){
-    gameController.getLocalData().startMonth = req.body.month;
+    gameController.getLocalData().startMonth = startMonths[req.params.id];
     res.setHeader('Content-Type', 'text/plain');
     res.send(gameController.getLocalData().startMonth);
 }
-
+var professions = profession.allProfs;
 exports.getProfession = function(req,res){
-    var profession = professions.allProfessions[req.params.id];
+    var profession = professions[req.params.id];
     
     gameController.getLocalData().playerProfession = profession.type;
     gameController.getLocalData().playerMoney = profession.money;
-    
+    console.log("test");
     res.setHeader('Content-Type', 'application/json');
     res.send(gameController.getLocalData().playerProfession);
 }

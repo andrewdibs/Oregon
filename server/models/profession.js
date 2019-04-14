@@ -4,14 +4,14 @@ function profession(type, origin, money){
     this.origin = origin;
 }
 
-exports.allProfessions = [];
+exports.allProfs = [];
 
-exports.allProfessions.push(new profession("Banker","Boston", 1600 ));
-exports.allProfessions.push(new profession("Carpenter","Ohio", 1300));
-exports.allProfessions.push(new profession("Farmer","Illinois", 1000));
+exports.allProfs.push(new profession("Banker","Boston", 1600 ));
+exports.allProfs.push(new profession("Carpenter","Ohio", 1300));
+exports.allProfs.push(new profession("Farmer","Illinois", 1000));
 
 
 exports.getAllProfessions = function(req,res){
     res.setHeader('Content-Type', 'application/json');
-    res.send(exports.allProfessions);
+    res.send(exports.allProfs);
 }

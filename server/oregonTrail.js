@@ -32,13 +32,35 @@ var setupController = require('./controllers/setupController');
 var gameController = require('./controllers/gameController');
 
 app.route('/api/topTen/topTen')
-  .get(topTenController.getCurrentScores);
+    .get(topTenController.getCurrentScores);
 
 app.route('/api/setup/player')
     .get(setupController.getAllPlayerNames)
     .post(setupController.savePlayerName);
-    
 
+
+app.route('/api/setup/profession/:id')
+    .post(setupController.getProfession);
+
+app.route('/api/game/pace/:id')
+    .post(gameController.changePace);
+
+app.route('/api/game/update')
+    .get(gameController.getGameData)
+    .post(gameController.updateGame);
+
+app.route('/api/game/data')
+    .get(gameController.getGameData);
+
+app.route('/api/setup/screen/:id')
+    .get(setupController.getGameScreen)
+    .post(setupController.getGameScreen);
+
+app.route('/api/setup/month/:id')
+    .post(setupController.saveStartMonth);
+
+app.route('/api/game/reset')
+    .post(gameController.resetGame);
 
 
 app.listen(port,()=> console.log(`server running on port ${port}`));
