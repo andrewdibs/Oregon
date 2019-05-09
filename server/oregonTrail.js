@@ -62,5 +62,10 @@ app.route('/api/setup/month/:id')
 app.route('/api/game/reset')
     .post(gameController.resetGame);
 
+app.route('/api/game/hunt')
+    .post(gameController.hunt);
+app.route('/api/game/eat')
+    .post(gameController.eat);
+
 
 app.listen(port,()=> console.log(`server running on port ${port}`));
