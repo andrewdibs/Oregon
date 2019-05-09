@@ -26,11 +26,11 @@ exports.changePace = function(req,res){
 }
 
 exports.resetGame = function(req,res){
-    data.playerNames = [];
+    //data.playerNames = [];
     data.playerStatus= [true,true,true,true,true];
-    data.playerProfession = "";
-    data.playerMoney = 0;
-    data.startMonth= "";
+    //data.playerProfession = "";
+    //data.playerMoney = 0;
+    //data.startMonth= "";
     data.milesTraveled = 0
     data.currentHealth = 100;
     data.currentPace = pace.allPaces[0];
@@ -45,6 +45,44 @@ exports.resetGame = function(req,res){
     res.send(data);
     
 }
+exports.hunt = function(req,res){
+    var num = Math.floor(Math.random()*10);
+    
+    if (num >= 3&& num<=7){
+        data.playerFood++;
+        data.currentHealth-=5;
+        data.messages.push("You hunted some wild game!");
+        data.daysOnTrail++;
+    }
+    else{
+        data.playerFood+=2;
+        data.currentHealth-= 7;
+        data.daysOnTrail++;
+        data.messages.push("You hunted some wild game!Food increased by 2.");
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin','*');
+    res.send(data);
+}
+
+exports.eat = function(req,res){
+    
+    if (data.playerFood>0&& data.currentPace== pace.allPaces[0]){
+        data.currentHealth+= 10;
+        data.playerFood--;
+        data.messages.push("You ate some food. Health increased.");
+    }
+    else if (data.playerFood<1&& data.currentPace== pace.allPaces[0]){
+        data.messages.push("You have to hunt for food.");
+    }
+    else{
+        data.messages.push("You must be resting before you can eat.");
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin','*');   
+    res.send(data);
+}
+
 data.currentWeather = weather.allWeather[2];
 exports.updateGame = function(req,res){
     res.setHeader('Content-Type', 'application/json');
@@ -103,9 +141,10 @@ exports.updateGame = function(req,res){
     }
     if (data.currentHealth <1 ){
         for (var i=0;i<5;i++){
-            data.playerStatus[i] = false;
-            data.messages.push("Oh boy, you died trying to eat eachother in the snowy mountains. The Oregon Trail isn't for everyone...");
+            data.playerStatus[i] = false;   
         }
+        data.messages.push("Oh boy, you died trying to eat eachother in the snowy mountains. The Oregon Trail isn't for everyone...");
+            console.log(data.messages)
     }
     //change terrain based on miles traveled 
     if (miles<100) data.currentTerrain = terrain.allTerrain[0];//grassLand
@@ -123,9 +162,10 @@ exports.updateGame = function(req,res){
     data.daysOnTrail++;
     
     //loss max days reached
-    if (data.daysOnTrail>45)
+    if (data.daysOnTrail>45|| data.currentHealth<0){
         data.messages.push("Oh boy, you died trying to eat eachother in the snowy   mountains. The Oregon Trail isn't for everyone...");
-    
+        
+    }
     //win
     if (data.milesTraveled>499 && data.daysOnTrail<46)
         data.messages.push("CONGRAGULATIONS! You have completed the Oregon Trail!");
