@@ -8,13 +8,15 @@ function gameData(){
     this.playerProfession = "";
     this.playerMoney = 0;
     this.startMonth= "";
-    this.milesTraveled = 0
+    this.milesTraveled = 0;
     this.currentHealth = 100;
     this.currentPace = pace.allPaces[0];
     this.daysOnTrail =0;
+    this.playerFood = 0;
     //this.currentWeather= weather.allWeather[2];
     this.currentTerrain = terrain.allTerrain[0];
     this.messages = [];
+    
 }
 
 exports.createData = function(){
