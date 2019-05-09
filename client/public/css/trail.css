@@ -19,3 +19,33 @@
     font-style: oblique;
     font-weight: bold;
 }
+.terrain-img{
+    position:absolute;
+    left:0px;
+    z-index:-1;
+}
+.wagon{
+    position:relative;
+    left:0%;
+    top: 400px;
+    width: 10%;
+    height:100px;
+    z-index:-1;
+}
+.controll{
+    font-family: sans-serif;
+    font-size: 15px;
+    text-align: left;
+    padding-bottom: 5px;
+    font-style: oblique;
+    font-weight: bold;
+}
+.stats{
+    padding-bottom: 150px;
+}
+.messageBox{
+    position: center;
+    font-family: sans-serif;
+    font-size: 15px;
+        
+}
