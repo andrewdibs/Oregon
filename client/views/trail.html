@@ -8,9 +8,13 @@
     
     <body>
         <img class= "title-img"id= "title" src="/images/title-img.jpg" alt="Oregon Trail" >
+        <div>
+             <img class= "terrain-img" id= "terrainImg" src="/images/grassland.jpg" alt="Oregon Trail" >
+            
+             <img class= "wagon" id= "wagonImg" src="/images/wagon.png" alt="Wagon" left= "0" >
+        </div>
         
-         <img class= "terrain-img" id= "grass-terrain" src="/images/grassland.jpg" alt="Oregon Trail" >
-        
+        <div class= "stats">
         <div class="stat">Days on Trail: <span id="days">0</span></div>
         <div class="stat">Miles Travled: <span id="miles">0</span></div>
         <div class="stat">Party Health: <span id="health">0</span></div>
@@ -18,6 +22,24 @@
         <div class="stat">Pace: <span id="pace">0</span></div>
         <div class="stat">Current Terrain: <span id="terrain">0</span></div>
         <div class="stat">Number of Members: <span id="members">0</span></div>
+        <div class="stat">Food: <span id="food">0</span></div>
+        </div> 
+        <p class="messageBox">
+            WELCOME! Travel a total 500 miles to complete the Oregon Trail. Good Luck!
+        </p>
+            <ul id="controlls">
+                <li class="controll">Spacebar: NextDay</li>
+                <li class="controll">0: Resting</li>
+                <li class="controll">1: Steady</li>
+                <li class="controll">2: Strenuos</li>
+                <li class="controll">3: Grueling</li>
+                <li class="controll">H: Hunt</li>
+                <li class="controll">E: Eat</li>
+                <li class="controll">R: ResetGame</li>
+                <li class="controll">4: Music</li>
+            </ul>
+        
+
     <script type="text/javascript" src="/js/global.js"></script>
     <script type="text/javascript" src="/js/trail.js"></script>
     </body>
