@@ -76,6 +76,9 @@ function nextDay(){
                 var message = data.messages[0];
                 document.getElementById("messageBox").innnerHTML= message;
             }
+            if (data.currentHealth<0||data.daysOnTrail>49||data.milesTraveled>499){
+                endGameStats();
+            }
             return data;
             
         })
@@ -147,4 +150,31 @@ function eat(){
             document.getElementById("food").innerHTML= data.playerFood;
         });
     });
-}    
+}
+function saveScore(score){
+    fetch('api/TopTen/save',{
+        method: 'POST',
+        headers:{
+            'Content-Type':'application/json; charsetUTF-8'
+        },
+        body: score
+    }).then(function(response){
+        if (response.status != 200){
+            console.log("couldnt retreive fetch: " +response.status);
+            return;
+        }
+    })
+}
+
+function endGameStats(){
+    var date = new Date(1313564400000);
+    var month = date.getMonth();
+    var day = date.getDay();
+    var year = date.getYear();
+
+    var formattedTime = month + '/' + day + '/' + year;
+    var score = data.currentHealth* (51 -data.daysOnTrail );
+    var json = JSON.parse('{"playerName":"'+data.playerNames[0]+'",score":'+score+'","dateEarned":"'+formattedTime+'"}');
+    saveScore(json);
+    document.getElementById("gameScreen").innerHTML = "Score: "+score+"\nThanks for playing "+data.playerNames[0]+".\n Check to see if you made the top 10 on the leaderboard!";
+}
