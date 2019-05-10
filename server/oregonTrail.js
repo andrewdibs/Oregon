@@ -31,8 +31,6 @@ var topTenController = require('./controllers/topTenController');
 var setupController = require('./controllers/setupController');
 var gameController = require('./controllers/gameController');
 
-app.route('/api/topTen/topTen')
-    .get(topTenController.getCurrentScores);
 
 app.route('/api/setup/player')
     .get(setupController.getAllPlayerNames)
@@ -67,5 +65,10 @@ app.route('/api/game/hunt')
 app.route('/api/game/eat')
     .post(gameController.eat);
 
+app.route('/api/topTen/print')
+    .get(topTenController.getTopScores);
+
+app.route('api/topTen/save')
+    .post(topTenController.insertTopScore);
 
 app.listen(port,()=> console.log(`server running on port ${port}`));

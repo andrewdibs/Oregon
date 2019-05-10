@@ -1,14 +1,4 @@
 var topTen = require('../models/topTen');
-
-exports.currentTopScores = [];
-exports.currentTopScores.push(topTen.addScore("lena", 430, "03/01/2019"));
-exports.currentTopScores.push(topTen.addScore("clix", 580, "11/20/2018" ));
-
-
-exports.getCurrentScores = function(req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(exports.currentTopScores);
-}
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
@@ -27,3 +17,29 @@ con.connect(function(err) {
 		if (err) throw err;
 	});
 });
+
+exports.getTopScores= function(req,res){
+    var currentTopScores = [];
+    
+    var sql = "SELECT playerName, playerScore, dateEarned FROM topTen;";
+    con.query(sql, function(err, row, fields){
+        if(err) throw err;
+        for (var i=0; i<row.length;i++){
+            currentTopScores[i] = topTen.addScore(row[i].playerName, row[i].playerScore, row[i].dateEarned);
+        }
+        res.setHeader('Content-Type','application/json');
+        res.send(currentTopScores);
+    })
+}
+
+exports.insertTopScore = function(req,res){
+    var sql = "INSERT INTO topTen (playerName,playerScore,dateEarned)VALUES('"+req.body.playerName+"','"+req.body.playerScore+"','"+req.body.dateEarned+"')";
+    
+    con.query(sql,function(err,result){
+        if(err) throw err;
+        
+        console.log("inserted");
+    })
+    res.setHeader('Content-Type','application/json');
+    res.send(req.body);
+}
