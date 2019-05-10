@@ -56,13 +56,13 @@ function printTopTen(data){
     if (topScores.length>10){
         for (var i =0; i<10; i++){
             var currentScore= topScores[i];
-            document.getElementById("scoreID"+i).innerHTML = JSON.stringify(currentScore); 
+            document.getElementById("row"+i).innerHTML = JSON.stringify(currentScore); 
         }
     }
     else{
         for(var i = 0;i<topScores.length;i++){
             var currentScore = topScores[i];
-            document.getElementById("scoreID"+i).innerHTML = JSON.stringify(currentScore);
+            document.getElementById("row"+i).innerHTML = JSON.stringify(currentScore);
         }
     }
 }
